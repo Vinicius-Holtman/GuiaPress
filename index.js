@@ -3,6 +3,12 @@ const app = express();
 const bodyParser = require('body-parser')
 const connection = require('./database/database')
 
+const categoriesController = require('./categories/CategoriesController')
+const articlesController = require('./articles/ArticlesController')
+
+const Article = require('./articles/Article')
+const Category = require('./categories/Category')
+
 // View engine
 app.set('view engine', 'ejs')
 
@@ -19,8 +25,12 @@ connection
     .then(() => console.log('Conexao feita com sucesso'))
     .catch((error) => console.log(error))
 
+// Routers
 app.get("/", (req, res) => {
     res.render("index")
 })
+
+app.use("/", categoriesController)
+app.use("/", articlesController)
 
 app.listen(8080, () => console.log("Server is only port 8080"))
